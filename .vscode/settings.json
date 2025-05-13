@@ -1,0 +1,7 @@
+{
+  "eslint.validate": [
+    "json"
+  ],
+  "vsicons.presets.angular": true,
+  "nxConsole.generateAiAgentRules": true
+}

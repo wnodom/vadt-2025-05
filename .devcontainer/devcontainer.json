@@ -1,0 +1,66 @@
+// See https://containers.dev/implementors/json_reference/ for
+// configuration reference.
+{
+  "name": "VADT",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    // // Add Debian Linux packages for Cypress, as listed here:
+    // // https://docs.cypress.io/app/get-started/install-cypress#UbuntuDebian
+    // "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+    //   "packages": "libgtk2.0-0,libgtk-3-0,libgbm-dev,libnotify-dev,libnss3,libxss1,libasound2,libxtst6,xauth,xvfb"
+    // }
+  },
+
+  // It should be possible to do the usual development tasks in the
+  // container without running as root. For anything that requires
+  // elevated privileges, the node user is granted access to `sudo` in
+  // the Dockerfile.
+  "remoteUser": "node",
+
+  "mounts": [
+    // Mount the node_modules directory as a named volume for better
+    // performance, and so it survives container rebuilds. This also
+    // avoids conflicts with the host's node_modules directory.
+    // https://code.visualstudio.com/remote/advancedcontainers/improve-performance#_use-a-targeted-named-volume
+    //
+    // Important note from the link above:
+    // > If you delete the node_modules folder in the container, it may
+    // > lose the connection to the volume. Delete the contents of the
+    // > node_modules folder instead when needed:
+    // >
+    // > $ rm -rf node_modules/* node_modules/.*
+    //
+    // "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+
+    // Add a local volume to store command history.
+    // https://code.visualstudio.com/remote/advancedcontainers/persist-bash-history
+    // (See Dockerfile for the associated PROMPT_COMMAND.)
+    // "source=${localWorkspaceFolderBasename}-bashhistory,target=/commandhistory,type=volume"
+  ],
+
+  // Simplify the workspace path used within the container.
+  // https://code.visualstudio.com/remote/advancedcontainers/change-default-source-mount
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+  "postCreateCommand": {
+    // Make sure the (non-root) node user can access node_modules.
+    // "Fix node_modules volume ownership": "sudo chown node node_modules",
+
+    // This command should only be necessary if...
+    //
+    // > your host machine is running Linux (including WSL on Windows)
+    // > and its user's UID and GID do not match those of the user in
+    // > the dev container, the dev container user's UID and GID will be
+    // > updated to those of the host user and you need to apply the
+    // > same update to the volume by adding the following to the
+    // > devcontainer.json.
+    //
+    // ...but also running it on macOS doesn't seem to cause any issues.
+    // https://code.visualstudio.com/remote/advancedcontainers/persist-bash-history
+    //
+    // "Fix commandhistory volume permssions": "sudo chown -R $(whoami): /commandhistory"
+  }
+}
