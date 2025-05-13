@@ -10,7 +10,8 @@ import {
   map,
   retry,
   startWith,
-  switchMap
+  switchMap,
+  tap
 } from 'rxjs';
 
 import { RedditImageSearchService } from './reddit-image-search.service';
@@ -32,7 +33,7 @@ export class RedditSearchComponent {
   subReddit = new FormControl(this.subReddits[0], {
     nonNullable: true
   });
-  search = new FormControl('', { nonNullable: true });
+  search = new FormControl('kangaroo', { nonNullable: true });
   results: Observable<ImageMetadata[]>;
 
   constructor() {
@@ -45,12 +46,13 @@ export class RedditSearchComponent {
     const validSearch = this.search.valueChanges.pipe(
       startWith(this.search.value),
       map(search => search.trim()),
-      debounceTime(200),
+      debounceTime(2000),
       distinctUntilChanged(),
       filter(search => search !== '')
     );
 
     this.results = combineLatest([validSubReddit, validSearch]).pipe(
+      tap(pairs => console.log(pairs)),
       switchMap(([subReddit, search]) =>
         ris.search(subReddit, search).pipe(
           retry(3),

@@ -20,17 +20,7 @@ export class AppComponent {
   // Typed Forms Nullability here:
   // https://angular.dev/guide/forms/typed-forms#nullability
 
-  details: FormGroup<{
-    firstName: FormControl<string | null>;
-    lastName: FormControl<string | null>;
-    middleInitial: FormControl<string | null>;
-    position: FormControl<string | null>;
-    department: FormControl<string | null>;
-    immediateSupervisor: FormControl<string | null>;
-    phoneNumber: FormControl<string | null>;
-    email: FormControl<string | null>;
-    status: FormControl<string | null>;
-  }> = inject(FormBuilder).group({
+  details = inject(FormBuilder).group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     middleInitial: ['', Validators.maxLength(1)],
