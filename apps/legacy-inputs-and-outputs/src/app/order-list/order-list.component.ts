@@ -1,8 +1,7 @@
 import {
   Component,
-  EventEmitter,
   Input,
-  Output
+  output
 } from '@angular/core';
 
 import { Order } from '../api-types';
@@ -14,7 +13,9 @@ import { Order } from '../api-types';
 export class OrderListComponent {
   @Input({ required: true }) orders!: Order[];
 
-  @Output() selectOrder = new EventEmitter<Order>();
+  // @Output() selectOrder = new EventEmitter<Order>();
+
+  selectOrder = output<Order>();
 
   // -------- external API above, internal implementation below
 
