@@ -25,7 +25,9 @@ export class WorkTaskListService {
     { label: 'submit report to manager' }
   ];
 
-  done = new BehaviorSubject(this._done);
+  private doneSubject = new BehaviorSubject(this._done);
+  
+  done = this.doneSubject.asObservable();
 
   private _todo = [
     { label: 'work on project B' },
@@ -35,6 +37,7 @@ export class WorkTaskListService {
   todo = new BehaviorSubject(this._todo);
 
   setTaskStatus(task: Task, complete: boolean) {
+
     // Update state by assigning a new array for both _todo and _done, then assign the
     // task to the appropriate list
     this._todo = this._todo.filter(curTask => curTask !== task);
@@ -47,7 +50,7 @@ export class WorkTaskListService {
     }
 
     // Notify any consumers of the todo list state of changes to both todo lists
-    this.done.next(this._done);
+    this.doneSubject.next(this._done);
     this.todo.next(this._todo);
   }
 
@@ -55,6 +58,6 @@ export class WorkTaskListService {
     this._done = [...this._done, ...this._todo];
     this._todo = [];
     this.todo.next(this._todo);
-    this.done.next(this._done);
+    this.doneSubject.next(this._done);
   }
 }
