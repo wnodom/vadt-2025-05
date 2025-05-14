@@ -32,12 +32,12 @@
     // >
     // > $ rm -rf node_modules/* node_modules/.*
     //
-    // "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
 
     // Add a local volume to store command history.
     // https://code.visualstudio.com/remote/advancedcontainers/persist-bash-history
     // (See Dockerfile for the associated PROMPT_COMMAND.)
-    // "source=${localWorkspaceFolderBasename}-bashhistory,target=/commandhistory,type=volume"
+    "source=${localWorkspaceFolderBasename}-bashhistory,target=/commandhistory,type=volume"
   ],
 
   // Simplify the workspace path used within the container.
@@ -47,7 +47,7 @@
 
   "postCreateCommand": {
     // Make sure the (non-root) node user can access node_modules.
-    // "Fix node_modules volume ownership": "sudo chown node node_modules",
+    "Fix node_modules volume ownership": "sudo chown node node_modules",
 
     // This command should only be necessary if...
     //
@@ -61,6 +61,6 @@
     // ...but also running it on macOS doesn't seem to cause any issues.
     // https://code.visualstudio.com/remote/advancedcontainers/persist-bash-history
     //
-    // "Fix commandhistory volume permssions": "sudo chown -R $(whoami): /commandhistory"
+    "Fix commandhistory volume permssions": "sudo chown -R $(whoami): /commandhistory"
   }
 }
