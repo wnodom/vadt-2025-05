@@ -19,7 +19,7 @@ export class StarshipApiService {
   private http = inject(HttpClient);
 
   starships(): Observable<FilmMeta[]> {
-    const url = 'https://swapi.dev/api/starships/';
+    const url = 'https://swapi.tech/api/starships/';
     return this.http
       .get<{ results: FilmMeta[] }>(url, {
         headers: jsonRequestHeaders

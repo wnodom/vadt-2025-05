@@ -19,7 +19,7 @@ export class AppComponent {
   showExtraTime = true;
 
   name = inject(HttpClient)
-    .get<Person>('https://swapi.dev/api/people/11/', {
+    .get<Person>('https://swapi.tech/api/people/11/', {
       headers: jsonRequestHeaders
     })
     .pipe(
