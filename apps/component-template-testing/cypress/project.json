@@ -1,0 +1,30 @@
+{
+  "name": "abc-728-component-template-testing-e2e",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/abc/728-component-template-testing/cypress/src",
+  "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["component-template-testing"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/abc/728-component-template-testing/cypress/cypress.config.ts",
+        "devServerTarget": "component-template-testing:ng-serve:development",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "component-template-testing:ng-serve:production"
+        },
+        "ci": {
+          "devServerTarget": "component-template-testing:ng-serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}
